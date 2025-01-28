@@ -7,7 +7,7 @@ export default {
   prefix: '',
 
   content: [
-    '/inertia/{pages,components,app,layouts}/**/*.{ts,tsx,vue}',
+    './inertia/{pages,components,app,layouts}/**/*.{ts,tsx,vue}',
     './resources/views/**/*.edge',
   ],
 
