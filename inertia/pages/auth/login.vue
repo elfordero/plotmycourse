@@ -32,6 +32,7 @@ const form = useForm({
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{{  exceptions.E_INVALID_CREDENTIALS }}</AlertDescription>
         </Alert>
+        
         <div class="grid gap-3">
             <FormInput label="Email" type="email" v-model="form.email" :error="form.errors.email" />
 

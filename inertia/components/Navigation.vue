@@ -1,5 +1,11 @@
 <script lang="ts" setup>
+import OrganizationDto from '#dtos/organization'
 import { Menu, Slash, Route } from 'lucide-vue-next'
+
+const props = defineProps<{
+    organization: OrganizationDto,
+    organizations: OrganizationDto[]
+}>()
 </script>
 
 <template>
@@ -11,7 +17,7 @@ import { Menu, Slash, Route } from 'lucide-vue-next'
 
         <div class="flex items-center">
             <Slash class="text-slate-300 w-4 h-4 -rotate-12" />
-            <span>TODO: ORG SELECT</span>
+            <OrganizationSelect v-bind="props" />
             <Slash class="text-slate-300 w-4 h-4 -rotate-12" />
         </div>
 
@@ -19,7 +25,7 @@ import { Menu, Slash, Route } from 'lucide-vue-next'
             Courses
         </Link>
 
-        <Link href="/dificulties" class="desktop-link" :class="{ active: $page.url.startsWith('/difficulties') }">
+        <Link href="/difficulties" class="desktop-link" :class="{ active: $page.url.startsWith('/difficulties') }">
             Difficulties
         </Link>
 
@@ -46,7 +52,7 @@ import { Menu, Slash, Route } from 'lucide-vue-next'
                     <span class="sr-only">PlotMyCourse</span>
                 </Link>
 
-                <span>TODO: ORG SELECT</span>
+                <OrganizationSelect v-bind="props" />
 
                 <Link href="/courses" class="mobile-link" :class="{ active: $page.url.startsWith('/courses') }">
                     Courses

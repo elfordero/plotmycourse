@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import UserDto from '#dtos/user'
 import { UserCircle } from 'lucide-vue-next'
-import { Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3'
+import OrganizationDto from '#dtos/organization'
 
 const props = defineProps<{
+    organization: OrganizationDto
+    organizations: OrganizationDto[]
     user: UserDto
     messages: Record<string, string | Record<string, string>>
 }>()

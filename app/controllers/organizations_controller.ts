@@ -1,8 +1,15 @@
-import StoreOrganization from '#actions/organization/store_organization'
+import DestroyOrganization from '#actions/organizations/destroy_organization'
+import SetActiveOrganization from '#actions/organizations/http/set_active_organization'
+import StoreOrganization from '#actions/organizations/store_organization'
+import UpdateOrganization from '#actions/organizations/update_organization'
 import { organizationValidator } from '#validators/organization'
+import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 
+@inject()
 export default class OrganizationsController {
+  constructor(protected setActiveOrganization: SetActiveOrganization) {}
+
   /**
    * Display form to create a new record
    */
@@ -20,26 +27,43 @@ export default class OrganizationsController {
       data,
     })
 
+    this.setActiveOrganization.handle({ id: organization.id })
+
+    return response.redirect().toPath('/')
+  }
+
+  async active({ response, params }: HttpContext) {
+    this.setActiveOrganization.handle({ id: params.id })
+
     return response.redirect().toPath('/')
   }
 
   /**
-   * Show individual record
-   */
-  async show({ params }: HttpContext) {}
-
-  /**
-   * Edit individual record
-   */
-  async edit({ params }: HttpContext) {}
-
-  /**
    * Handle form submission for the edit action
    */
-  async update({ params, request }: HttpContext) {}
+  async update({ params, request, response, auth }: HttpContext) {
+    const data = await request.validateUsing(organizationValidator)
+
+    await UpdateOrganization.handle({
+      user: auth.user!,
+      id: params.id,
+      data,
+    })
+
+    return response.redirect().back()
+  }
 
   /**
    * Delete record
    */
-  async destroy({ params }: HttpContext) {}
+  async destroy({ params, response, session, auth }: HttpContext) {
+    const organization = await DestroyOrganization.handle({
+      user: auth.user!,
+      id: params.id,
+    })
+
+    session.flash('success', `Your ${organization.name} has been deleted`)
+
+    return response.redirect().toPath('/')
+  }
 }
