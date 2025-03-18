@@ -26,6 +26,8 @@ export default class CourseDto extends BaseModelDto {
   declare organizationId: number
   declare organization: OrganizationDto | null
 
+  declare meta: Record<string, any>
+
   constructor(course?: Course) {
     super()
 
@@ -47,5 +49,7 @@ export default class CourseDto extends BaseModelDto {
 
     this.organizationId = course.organizationId
     this.organization = course.organization && new OrganizationDto(course.organization)
+
+    this.meta = course.$extras
   }
 }

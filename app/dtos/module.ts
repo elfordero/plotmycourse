@@ -13,10 +13,10 @@ export default class ModuleDto extends BaseModelDto {
   declare createdAt: string
   declare updatedAt: string
   declare status: StatusDto | null
-  declare lessons: LessonDto[]
 
   declare organizationId: number
   declare organization: OrganizationDto | null
+  declare lessons: LessonDto[]
 
   constructor(module?: Module) {
     super()
@@ -30,9 +30,9 @@ export default class ModuleDto extends BaseModelDto {
     this.createdAt = module.createdAt.toISO()!
     this.updatedAt = module.updatedAt.toISO()!
     this.status = module.status && new StatusDto(module.status)
-    this.lessons = LessonDto.fromArray(module.lessons)
 
     this.organizationId = module.organizationId
     this.organization = module.organization && new OrganizationDto(module.organization)
+    this.lessons = LessonDto.fromArray(module.lessons)
   }
 }

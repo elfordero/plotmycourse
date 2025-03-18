@@ -52,7 +52,7 @@ function onOrderUpdate() {
 
             <Button size="small" variant="ghost" @click="dialog.open()">
                 <Plus class="w-3 h-3 mr-2" />
-                    Add difficulty
+                    Add Difficulty
             </Button>
         </div>
 
