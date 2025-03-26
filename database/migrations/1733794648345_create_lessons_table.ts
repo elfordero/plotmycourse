@@ -25,7 +25,7 @@ export default class extends BaseSchema {
       table.text('notes')
       table.integer('order').unsigned().notNullable().defaultTo(0)
 
-      table.timestamp('published_at')
+      table.timestamp('publish_at')
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })

@@ -1,8 +1,10 @@
 import DestroyModule from '#actions/modules/destroy_module'
 import StoreModule from '#actions/modules/store_module'
 import UpdateModule from '#actions/modules/update_module'
+import UpdateModuleOrder from '#actions/modules/update_module_order'
+import UpdateModuleTag from '#actions/modules/update_module_tag'
 import { withOrganizationMetaData } from '#validators/helpers/organizations'
-import { moduleValidator } from '#validators/module'
+import { moduleOrderValidator, modulePatchTagValidator, moduleValidator } from '#validators/module'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class ModulesController {
@@ -31,6 +33,33 @@ export default class ModulesController {
       id: params.id,
       organization,
       data,
+    })
+
+    return response.redirect().back()
+  }
+
+  async tag({ params, request, response, organization }: HttpContext) {
+    const data = await request.validateUsing(
+      modulePatchTagValidator,
+      withOrganizationMetaData(organization.id)
+    )
+
+    await UpdateModuleTag.handle({
+      id: params.id,
+      organization,
+      data,
+    })
+
+    return response.redirect().back()
+  }
+
+  async order({ params, request, response, organization }: HttpContext) {
+    const { ids } = await request.validateUsing(moduleOrderValidator)
+
+    await UpdateModuleOrder.handle({
+      courseId: params.courseId,
+      organization,
+      ids,
     })
 
     return response.redirect().back()
